@@ -8,10 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow name="create-account-implSub_Flow" doc:id="b664d8f5-3184-440f-8e05-6f25b8bb6332" >
 		<ee:transform doc:name="Sf Request" doc:id="35e87aa1-6354-43b7-a6f4-4ed2b4e307cd" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
+				<ee:set-payload resource="dwl/createAccount.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Before Create Account" doc:id="7c3a346a-d761-420b-86b5-4ccc987d77fe" message="Before create account:: #[payload]"/>
