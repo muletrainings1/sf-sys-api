@@ -5,6 +5,27 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="create-account-implSub_Flow" doc:id="b664d8f5-3184-440f-8e05-6f25b8bb6332" >
+		<ee:transform doc:name="Sf Request" doc:id="35e87aa1-6354-43b7-a6f4-4ed2b4e307cd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before Create Account" doc:id="7c3a346a-d761-420b-86b5-4ccc987d77fe" message="Before create account:: #[payload]"/>
+		<salesforce:create doc:name="Create Account" doc:id="3ad6db27-b09a-4341-9efb-30f6026f63c4" config-ref="Salesforce_Config" type="Account"/>
+		<ee:transform doc:name="Sf Response" doc:id="1aa44d74-d36f-4c51-b12b-3215b5ddcf0d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After Create Account" doc:id="eea33f83-6093-4010-8450-5628a037ad30" message="#[payload]"/>
+	</sub-flow>
 	<sub-flow name="delete-account-implSub_Flow" doc:id="7951ee8d-944a-4fd9-bed6-757e73cb8d33" >
 		<logger level="INFO" doc:name="Before Delete Account" doc:id="2b95e232-051c-4f68-8f06-600e49358c6c" />
 		<salesforce:delete doc:name="Delete Account" doc:id="00c7c930-c4ea-4a48-9349-fecd7c6d9061" config-ref="Salesforce_Config">
