@@ -217,7 +217,8 @@ output application/json
 payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-        <salesforce:create doc:name="Create" doc:id="c7d45a0a-c9f6-4438-b9ab-75d969e14803" config-ref="Salesforce_Config" type="Account" />
+        <logger level="INFO" doc:name="Before Create Account" doc:id="8218e077-b78c-41ab-a263-29b92702ba2c" message="Before create account:: #[payload]"/>
+		<salesforce:create doc:name="Create" doc:id="c7d45a0a-c9f6-4438-b9ab-75d969e14803" config-ref="Salesforce_Config" type="Account" />
         <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -228,7 +229,7 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\contacts:application\json:sf-sys-api-config">
-        <salesforce:create type="Contact" doc:name="Create contact" doc:id="0dcf58cb-2af6-48de-903b-25c9a2a3d68a" config-ref="Salesforce_Config"/>
+		<salesforce:create type="Contact" doc:name="Create contact" doc:id="0dcf58cb-2af6-48de-903b-25c9a2a3d68a" config-ref="Salesforce_Config"/>
 		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
