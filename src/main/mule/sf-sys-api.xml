@@ -172,17 +172,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="delete:\accounts:sf-sys-api-config">
-        <salesforce:delete doc:name="Delete" doc:id="fceb33c8-2c7c-4ed9-9b6c-7bf64e51b185" config-ref="Salesforce_Config">
-			<salesforce:ids ><![CDATA[#[[attributes.queryParams.Id]]]]></salesforce:ids>
-		</salesforce:delete>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference  Delete Account" doc:id="6170a3de-3391-4bf7-bae5-ea75e5a82fc6" name="delete-account-implSub_Flow"/>
     </flow>
     <flow name="delete:\contacts:sf-sys-api-config">
 		<ee:transform>

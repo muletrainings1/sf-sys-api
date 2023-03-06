@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="delete-account-implSub_Flow" doc:id="7951ee8d-944a-4fd9-bed6-757e73cb8d33" >
+		<logger level="INFO" doc:name="Before Delete Account" doc:id="2b95e232-051c-4f68-8f06-600e49358c6c" />
+		<salesforce:delete doc:name="Delete Account" doc:id="00c7c930-c4ea-4a48-9349-fecd7c6d9061" config-ref="Salesforce_Config">
+			<salesforce:ids ><![CDATA[#[[attributes.queryParams.Id]]]]></salesforce:ids>
+		</salesforce:delete>
+		<ee:transform doc:name="SF-Response" doc:id="3fd8aa5e-4f27-4508-a832-2768ec473ffd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    Id:payload.items.id[0],
+    status:if(payload.successful== true) "delete successful" else
+    "delete unsuccessful"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After Delete Account" doc:id="4eca9cc2-8103-45dd-8bf3-08f73743bc52" />
+	</sub-flow>
+</mule>
