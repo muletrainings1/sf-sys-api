@@ -21,7 +21,7 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="After Create Account" doc:id="eea33f83-6093-4010-8450-5628a037ad30" message="#[payload]"/>
+		<logger level="INFO" doc:name="After Create Account" doc:id="eea33f83-6093-4010-8450-5628a037ad30" message="After Create Account:: #[payload]"/>
 	</sub-flow>
 	<sub-flow name="delete-account-implSub_Flow" doc:id="7951ee8d-944a-4fd9-bed6-757e73cb8d33" >
 		<logger level="INFO" doc:name="Before  Delete Account" doc:id="2b95e232-051c-4f68-8f06-600e49358c6c" message="Deleting Id:: #[attributes.queryParams.Id]"/>
