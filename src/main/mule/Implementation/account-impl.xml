@@ -40,6 +40,6 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="After Delete Account" doc:id="4eca9cc2-8103-45dd-8bf3-08f73743bc52" />
+		<logger level="INFO" doc:name="After Delete Account" doc:id="4eca9cc2-8103-45dd-8bf3-08f73743bc52" message="#[payload]"/>
 	</sub-flow>
 </mule>

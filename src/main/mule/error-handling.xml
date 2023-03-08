@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="globalError_Handler" doc:id="29792218-b779-4264-8bd8-6aecbaa18350" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e91a4d91-fb46-460d-b508-ff2a9006d230" type="APIKIT:BAD_REQUEST">
+			<set-variable value="#[400]" doc:name="Set the HTTP Status - 400" doc:id="4b1cb185-f358-4acd-9a76-43a6c56144a9" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="f3670e7d-c1cb-4008-b1d5-c07f0ea6322c" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eb7d3b34-69c9-4159-82cb-5b283c71ebfd" type="APIKIT:NOT_FOUND">
+			<set-variable value="#[404]" doc:name="Set the HTTP Status - 404" doc:id="2976daf1-92b7-4687-ab54-ceda327657c5" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="03b520ae-cfb6-4b7a-bb85-68a74042ae80" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e9f66e37-2778-4e50-a45d-5540de69ff01" type="APIKIT:METHOD_NOT_ALLOWED">
+			<set-variable value="#[405]" doc:name="Set the HTTP Status - 405" doc:id="84d56cfa-8346-433a-91bc-4f0c1d6ee75e" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="03c5f9ec-3d95-4f62-965b-21bd613c6116" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="294bf4e8-10c8-4de6-b569-6fad3e40da39" type="APIKIT:NOT_ACCEPTABLE">
+			<set-variable value="#[406]" doc:name="Set the HTTP Status - 406" doc:id="41cace1f-bae2-44de-83e5-7820c881d231" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="cd60c476-c074-4a24-9ea1-f0d98c3ec894" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f1c4cde7-6db5-4fa8-a089-d1dfb820b82c" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<set-variable value="#[415]" doc:name="Set the HTTP Status - 415" doc:id="65b27871-2df4-4c12-ba96-11ba8f0bc1c1" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="8f080c46-3926-40ce-aa1b-5a46d7d04550" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4bbb699a-f313-4176-b865-81262396bbaa" type="APIKIT:NOT_IMPLEMENTED">
+			<set-variable value="#[501]" doc:name="Set the HTTP Status - 501" doc:id="3a7f8312-84cb-4140-9847-8988e768b24e" variableName="httpStatus"/>
+			<flow-ref doc:name="global prepare-error-response-sub-flow" doc:id="b6764209-1f11-45ea-bff3-1a679bc6e4b9" name="global-prepare-error-response-sub-flow"/>
+		</on-error-propagate>
+	</error-handler>
+	<sub-flow name="global-prepare-error-response-sub-flow" doc:id="6515875e-5c36-4cf5-923e-f677aa0c8c19" >
+		<ee:transform doc:name="Init Variables" doc:id="a1f50a6c-a50e-47f4-8de6-8293f7893f2e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+if(vars.errorDescription?)
+    vars.errorDescription
+else
+error.exception.detailMessage]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Compose Error Payload" doc:id="69a58501-613a-49b9-bc69-6f3b4f020909" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+error:{
+	errorCode: vars.httpStatus,
+	errorDateTime: now() as String { format:"yyyy-MM-dd'T'HH:mm:ss"},
+	errorMessage: if(vars.errorMessage !=null)vars.errorMessage else 'error',
+	errorDescription: if(vars.errorDescription !=null) vars.errorDesciption else'error'
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Error Description Logger" doc:id="6386e9b8-7d13-43eb-b0bc-a3a2b0cfc3c7" message="#[&quot;error occured - &quot; ++ write(payload,'application/json')]"/>
+	</sub-flow>
+</mule>

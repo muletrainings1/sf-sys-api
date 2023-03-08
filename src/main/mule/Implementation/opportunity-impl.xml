@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<sub-flow name="opportunity-implSub_Flow" doc:id="334efe52-9b43-45e8-af55-632043bb0af9" >
+		<ee:transform doc:name="Transform Message" doc:id="1fb89559-6d00-4a30-abd5-1d13751df692" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="5a969f25-a576-478b-9bb4-4ba570eac919" message="#[payload]"/>
+		<salesforce:create doc:name="Create" doc:id="7938e177-9e50-41ed-a8e2-0fee8e4262d3" config-ref="Salesforce_Config" type="Opportunity"/>
+		<ee:transform doc:name="Transform Message" doc:id="04cf85d6-761d-4fba-9869-eb387f0c5b28" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a2a15ffd-60c3-4726-bfd6-33d05fc17f31" message="#[payload]"/>
+	</sub-flow>
+</mule>
