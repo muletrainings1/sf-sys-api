@@ -35,7 +35,7 @@ output application/json
 ---
 {
     Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id delete successful" else
+    status:if(payload.successful== true) " Id deleted successfully" else
     "delete unsuccessful"
 }]]></ee:set-payload>
 			</ee:message>
