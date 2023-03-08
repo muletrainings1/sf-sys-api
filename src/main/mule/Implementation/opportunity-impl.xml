@@ -11,7 +11,33 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+[
+
+{
+"AccountId": "IMF911",
+"AgeInDays": 911,
+"Amount" : "911",
+"CampaignId": "IX40",
+"CloseDate" : "4/4/2022",
+"ConnectionReceivedId" : "CR07",
+"ConnectionSentId" : "CS201",
+"ContactId" : "CID100",
+"ContractId" : "cntcID911",
+"CurrencyIsoCode" : "DOLLAR",
+"Description" : "Greatest description you have ever seen",
+"ExpectedRevenue": "100-911",
+"Fiscal": 2027,
+"FiscalQuarter": "A3",
+"FiscalYear": 2091,
+"ForecastCategory": "Closed",
+"ForecastCategoryName": "Commit",
+"HasOpenActivity": true,
+"HasOpportunityLineItem" : true,
+"HasOverdueTask" : true
+
+}
+
+]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="5a969f25-a576-478b-9bb4-4ba570eac919" message="#[payload]"/>
@@ -25,5 +51,26 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="a2a15ffd-60c3-4726-bfd6-33d05fc17f31" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="opportunity-implSub_Flow1" doc:id="dde33914-c866-4042-b684-af8dfebae62f" >
+		<ee:transform doc:name="Sf Request" doc:id="63f1cca4-bb1d-4dfc-b021-8673728a8e04" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before Update" doc:id="3ffe4a71-f958-4d40-8a55-04d38a998960" message="Before Update Opportunity:: #[payload]"/>
+		<salesforce:update doc:name="Update Opportunity" doc:id="fc249f79-5641-455c-a696-f6d65aa14f1d" config-ref="Salesforce_Config" type="Opportunity"/>
+		<ee:transform doc:name="Sf Response" doc:id="2823bcd9-bb67-4935-80b7-746a6cee94e6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After Update" doc:id="fee7617d-95bf-494b-8655-f3bd040d7f12" message="After Update Opportunity:: #[payload]"/>
 	</sub-flow>
 </mule>

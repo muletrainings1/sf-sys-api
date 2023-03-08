@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<ee:transform doc:name="Init Variables" doc:id="a1f50a6c-a50e-47f4-8de6-8293f7893f2e" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 if(vars.errorDescription?)
     vars.errorDescription
@@ -45,7 +45,7 @@ error.exception.detailMessage]]></ee:set-payload>
 		<ee:transform doc:name="Compose Error Payload" doc:id="69a58501-613a-49b9-bc69-6f3b4f020909" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 error:{
 	errorCode: vars.httpStatus,
