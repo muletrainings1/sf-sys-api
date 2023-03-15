@@ -18,28 +18,10 @@
 		<error-handler ref="globalError_Handler" />
     </flow>
     <flow name="put:\Opportunity:application\json:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: " Oppurtunity updated sucessfully"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference Update Opp" doc:id="21c96575-6139-44dc-88ae-0da2724256e4" name="update-opportunity-implSub_Flow1"/>
     </flow>
     <flow name="put:\accounts:application\json:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "message code": " updated successfully"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference Update Account" doc:id="7b850602-cd8e-4dde-9eff-2a9e8023600e" name="update-account-implSub_Flow"/>
     </flow>
     <flow name="put:\contacts:application\json:sf-sys-api-config">
         <ee:transform>
@@ -54,16 +36,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="delete:\Opportunity:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: " Oppurtunity deleted sucessfully"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference Delete Opp" doc:id="dbd6b0d4-726a-424d-9e38-bb7a538355ca" name="delete-opportunity-implSub_Flow"/>
     </flow>
     <flow name="delete:\accounts:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference  Delete Account" doc:id="6170a3de-3391-4bf7-bae5-ea75e5a82fc6" name="delete-account-implSub_Flow" />
@@ -81,7 +54,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\Opportunity:application\json:sf-sys-api-config">
-        <flow-ref doc:name="Flow Reference" doc:id="f8443968-129e-4878-8c06-93f63044a501" name="opportunity-implSub_Flow" />
+        <flow-ref doc:name="Flow Reference Create Opp" doc:id="f8443968-129e-4878-8c06-93f63044a501" name="create-opportunity-implSub_Flow" />
     </flow>
     <flow name="post:\accounts:application\json:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference Create Account" doc:id="d2fd414c-9f31-432d-880a-4004ec716dce" name="create-account-implSub_Flow" />
