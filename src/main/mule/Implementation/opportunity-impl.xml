@@ -9,35 +9,19 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		<ee:transform doc:name="Transform Message" doc:id="1fb89559-6d00-4a30-abd5-1d13751df692" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/java
 ---
-[
-
-{
-"AccountId": "IMF911",
-"AgeInDays": 911,
-"Amount" : "911",
-"CampaignId": "IX40",
-"CloseDate" : "4/4/2022",
-"ConnectionReceivedId" : "CR07",
-"ConnectionSentId" : "CS201",
-"ContactId" : "CID100",
-"ContractId" : "cntcID911",
-"CurrencyIsoCode" : "DOLLAR",
-"Description" : "Greatest description you have ever seen",
-"ExpectedRevenue": "100-911",
-"Fiscal": 2027,
-"FiscalQuarter": "A3",
-"FiscalYear": 2091,
-"ForecastCategory": "Closed",
-"ForecastCategoryName": "Commit",
-"HasOpenActivity": true,
-"HasOpportunityLineItem" : true,
-"HasOverdueTask" : true
-
+payload map (item, index) -> {
+  Name:  item.Name ,
+  StageName: item.StageName ,
+  CloseDate : ((now() + |P3M|) as DateTime as String {format :'YYYY-MM-dd'}) as Date,
+  AccountId: item.AccountId,
+  Amount : item.Amount ,
+  Description : item.Description ,
+  ForecastCategoryName: item.ForecastCategoryName
 }
 
-]]]></ee:set-payload>
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="5a969f25-a576-478b-9bb4-4ba570eac919" message="#[payload]"/>
@@ -47,7 +31,11 @@ output application/json
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+    Id:payload.items.id[0],
+    status:if(payload.successful== true) " Id created successful" else
+    "Id created unsuccessful"
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="a2a15ffd-60c3-4726-bfd6-33d05fc17f31" message="#[payload]"/>
@@ -58,7 +46,9 @@ payload]]></ee:set-payload>
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+[payload
+
+]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Before Update" doc:id="3ffe4a71-f958-4d40-8a55-04d38a998960" message="Before Update Opportunity:: #[payload]"/>
