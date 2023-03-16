@@ -1,0 +1,19 @@
+[
+  {
+    "Id":"Id123",
+    "AssistantName":"AssistantName",
+    "AssistantPhone":"AssistantPhone",
+    "Birthdate":"1/2/2003",
+    "CleanStatus":"Matched",
+    "Department":"Department",
+    "Description":"Description",
+    "DoNotCall":true	,
+    "Email":"Email",
+    "Fax":45,
+    "FirstName":"FirstName",
+    "LastName": "LastName",
+    "GenderIdentity":"MALE",
+    "HasOptedOutOfEmail":true
+
+  }
+]

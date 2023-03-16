@@ -4,6 +4,7 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<configuration doc:name="Configuration" doc:id="007ff621-8b6b-452e-9a43-9789ca6f6146" defaultErrorHandler-ref="globalError_Handler" />
 	<error-handler name="globalError_Handler" doc:id="29792218-b779-4264-8bd8-6aecbaa18350" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e91a4d91-fb46-460d-b508-ff2a9006d230" type="APIKIT:BAD_REQUEST">
 			<set-variable value="#[400]" doc:name="Set the HTTP Status - 400" doc:id="4b1cb185-f358-4acd-9a76-43a6c56144a9" variableName="httpStatus"/>

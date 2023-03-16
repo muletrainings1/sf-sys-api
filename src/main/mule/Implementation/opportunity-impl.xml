@@ -31,11 +31,12 @@ payload map (item, index) -> {
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-    Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id created successful" else
-    "Id created unsuccessful"
-}]]></ee:set-payload>
+//{
+ //   Id:payload.items.id[0],
+ //   status:if(payload.successful== true) " Id created successful" else
+//    "Id created unsuccessful"
+//}
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Create Opp" doc:id="a2a15ffd-60c3-4726-bfd6-33d05fc17f31" message="After Create Opportunity::#[payload]"/>
@@ -64,12 +65,12 @@ payload map (item, index) -> {
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-    Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id update successful" else
-    "Id update unsuccessful",
-    (failureReason: payload.localizedMessage) if(payload.localizedMessage != null)
-}
+//{
+ //   Id:payload.items.id[0],
+ //   status:if(payload.successful== true) " Id update successful" else
+//    "Id update unsuccessful"
+//}
+payload
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
