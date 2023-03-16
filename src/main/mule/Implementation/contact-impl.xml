@@ -11,26 +11,18 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-
-
-[
-  {
-    "AccountId":"12345oo",
-    "AssistantName":"AssistantName",
-    "AssistantPhone":"AssistantPhone",
-    "Birthdate":"1/2/2003",
-    "CleanStatus":"Matched",
-    "Department":"Department",
-    "Description":"Description",
-    "DoNotCall":true	,
-    "Email":"Email",
-    "Fax":45,
-    "FirstName":"FirstName",
-    "GenderIdentity":"MALE",
-    "HasOptedOutOfEmail":true
-
-  }
-]]]></ee:set-payload>
+    payload map ((item, index) ->
+    {
+        AssistantName: item.AssistantName,
+        AssistantPhone: item.AssistantPhone,
+        CleanStatus: item.CleanStatus,
+        Department: item.Department,
+        Description: item.Description,
+        FirstName: item.FirstName,
+        LastName: item.LastName
+    }
+ )
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Before Create contacts Logger" doc:id="7c9137bf-c6ec-48fe-9974-fc514692b1c7" message="BeforeCreateContacts::#[payload]"/>
@@ -40,9 +32,71 @@ output application/json
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+    Id:payload.items.id[0],
+    status:if(payload.successful== true) " Id created successful" else
+    "Id created unsuccessful"
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After create contacts" doc:id="42547197-c8e6-4a5d-806e-c7b6ba8dc0e1" message="AfterCreateContacts::#[payload]"/>
+	</sub-flow>
+	<sub-flow name="delete-contact-implSub_Flow" doc:id="71b49b7b-3050-4fa6-8b25-6211cc41fdf9" >
+		<logger level="INFO" doc:name="Before Delete contacts" doc:id="80add52c-4e5a-403c-820f-e98361bc64c5" message="deleting Id::#[attributes.queryParams.Id]"/>
+		<salesforce:delete doc:name="Delete" doc:id="e9fff012-da5b-4838-86a2-24f8701f2048" config-ref="Salesforce_Config" >
+			<salesforce:ids ><![CDATA[#[[attributes.queryParams.Id]]]]></salesforce:ids>
+		</salesforce:delete>
+		<ee:transform doc:name="Sf Response" doc:id="4848034f-5ae1-4613-adb0-51bcb6d55fa8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    Id:payload.items.id[0],
+    status:if(payload.successful== true) " Id delete successful" else
+    "Id delete unsuccessfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After Delete contacts" doc:id="c79bbb54-d7ca-4b15-ba6c-e1f6202c4bbf" message="Delete Id::#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-contact-implSub_Flow" doc:id="aa31ca43-af21-4c6b-93f2-72ce895cfd0a" >
+		<ee:transform doc:name="Sf Request" doc:id="99fd9e5e-d0b9-4fa4-97c2-952fd6898ff6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+    payload map ((item, index) ->
+    {
+    	Id:item.Id,
+        AssistantName: item.AssistantName,
+        AssistantPhone: item.AssistantPhone,
+        CleanStatus: item.CleanStatus,
+        Department: item.Department,
+        Description: item.Description,
+        FirstName: item.FirstName,
+        LastName: item.LastName
+    }
+ )
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before Update contacts " doc:id="54efe26e-bd24-45d9-acdf-f4d07663afab" message="Before Update contacts::#[payload]"/>
+		<salesforce:update doc:name="Update" doc:id="260599bb-d6ee-4454-9a38-cdc60ebbea6c" config-ref="Salesforce_Config" type="Contact"/>
+		<ee:transform doc:name="Sf Response" doc:id="39a64c2d-a033-4bb7-8553-5c3b175c0a0f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    Id:payload.items.id[0],
+    status:if(payload.successful== true) " Id update successful" else
+    "Id update unsuccessful",
+    (failureReason: payload.localizedMessage) if(payload.localizedMessage != null)
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After Update contacts" doc:id="c8437b02-5271-4e28-97b0-ade9db94aaf0" message="After Update contacts::#[payload]"/>
 	</sub-flow>
 </mule>

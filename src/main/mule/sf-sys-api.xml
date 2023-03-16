@@ -3,7 +3,7 @@
     <http:listener-config name="sf-sys-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-    <apikit:config name="sf-sys-api-config" api="resource::1e4468d0-75df-49fd-a69f-6a693cb30479:sf-sys-api:1.0.5:raml:zip:sf-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="sf-sys-api-config" api="resource::1e4468d0-75df-49fd-a69f-6a693cb30479:sf-sys-api:1.0.18:raml:zip:sf-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="sf-sys-api-main">
         <http:listener config-ref="sf-sys-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -15,34 +15,25 @@
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="sf-sys-api-config" />
-		<error-handler ref="globalError_Handler" />
+        <error-handler ref="globalError_Handler" />
     </flow>
     <flow name="put:\Opportunity:application\json:sf-sys-api-config">
-		<flow-ref doc:name="Flow Reference Update Opp" doc:id="21c96575-6139-44dc-88ae-0da2724256e4" name="update-opportunity-implSub_Flow1"/>
+        <flow-ref doc:name="Flow Reference Update Opp" doc:id="21c96575-6139-44dc-88ae-0da2724256e4" name="update-opportunity-implSub_Flow1" />
     </flow>
     <flow name="put:\accounts:application\json:sf-sys-api-config">
-		<flow-ref doc:name="Flow Reference Update Account" doc:id="7b850602-cd8e-4dde-9eff-2a9e8023600e" name="update-account-implSub_Flow"/>
+        <flow-ref doc:name="Flow Reference Update Account" doc:id="7b850602-cd8e-4dde-9eff-2a9e8023600e" name="update-account-implSub_Flow" />
     </flow>
     <flow name="put:\contacts:application\json:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  Message: " Contact Updated successfully"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference Update Contact" doc:id="4138f44e-fe04-42a7-bbea-5b4a2b959258" name="update-contact-implSub_Flow"/>
     </flow>
     <flow name="delete:\Opportunity:sf-sys-api-config">
-		<flow-ref doc:name="Flow Reference Delete Opp" doc:id="dbd6b0d4-726a-424d-9e38-bb7a538355ca" name="delete-opportunity-implSub_Flow"/>
+        <flow-ref doc:name="Flow Reference Delete Opp" doc:id="dbd6b0d4-726a-424d-9e38-bb7a538355ca" name="delete-opportunity-implSub_Flow" />
     </flow>
     <flow name="delete:\accounts:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference  Delete Account" doc:id="6170a3de-3391-4bf7-bae5-ea75e5a82fc6" name="delete-account-implSub_Flow" />
     </flow>
     <flow name="delete:\contacts:sf-sys-api-config">
-		<flow-ref doc:name="Flow Reference delete contacts" doc:id="ff558cdd-e7a6-4102-ad73-3b040787bedb" name="create-contact-implSub_Flow"/>
+        <flow-ref doc:name="Flow Reference delete contacts" doc:id="ff558cdd-e7a6-4102-ad73-3b040787bedb" name="delete-contact-implSub_Flow" />
     </flow>
     <flow name="post:\Opportunity:application\json:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference Create Opp" doc:id="f8443968-129e-4878-8c06-93f63044a501" name="create-opportunity-implSub_Flow" />
@@ -51,6 +42,6 @@ output application/json
         <flow-ref doc:name="Flow Reference Create Account" doc:id="d2fd414c-9f31-432d-880a-4004ec716dce" name="create-account-implSub_Flow" />
     </flow>
     <flow name="post:\contacts:application\json:sf-sys-api-config">
-		<flow-ref doc:name="Flow Reference Create Contact" doc:id="fe805dc2-6b46-4620-bfaa-aa6f708b96a9" name="create-contact-implSub_Flow"/>
+        <flow-ref doc:name="Flow Reference Create Contact" doc:id="fe805dc2-6b46-4620-bfaa-aa6f708b96a9" name="create-contact-implSub_Flow" />
     </flow>
 </mule>
