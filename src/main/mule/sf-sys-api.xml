@@ -42,16 +42,7 @@ output application/json
         <flow-ref doc:name="Flow Reference  Delete Account" doc:id="6170a3de-3391-4bf7-bae5-ea75e5a82fc6" name="delete-account-implSub_Flow" />
     </flow>
     <flow name="delete:\contacts:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  Message: "Contact Deleted successfully"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference delete contacts" doc:id="ff558cdd-e7a6-4102-ad73-3b040787bedb" name="create-contact-implSub_Flow"/>
     </flow>
     <flow name="post:\Opportunity:application\json:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference Create Opp" doc:id="f8443968-129e-4878-8c06-93f63044a501" name="create-opportunity-implSub_Flow" />
@@ -60,13 +51,6 @@ output application/json
         <flow-ref doc:name="Flow Reference Create Account" doc:id="d2fd414c-9f31-432d-880a-4004ec716dce" name="create-account-implSub_Flow" />
     </flow>
     <flow name="post:\contacts:application\json:sf-sys-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference Create Contact" doc:id="fe805dc2-6b46-4620-bfaa-aa6f708b96a9" name="create-contact-implSub_Flow"/>
     </flow>
 </mule>
