@@ -27,6 +27,7 @@
     </flow>
     <flow name="put:\contacts:application\json:sf-sys-api-config">
 		<flow-ref doc:name="Flow Reference Update Contact" doc:id="4138f44e-fe04-42a7-bbea-5b4a2b959258" name="update-contact-implSub_Flow"/>
+		<error-handler ref="globalError_Handler" />
     </flow>
     <flow name="delete:\Opportunity:sf-sys-api-config">
         <flow-ref doc:name="Flow Reference Delete Opp" doc:id="dbd6b0d4-726a-424d-9e38-bb7a538355ca" name="delete-opportunity-implSub_Flow" />

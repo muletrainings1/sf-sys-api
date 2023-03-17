@@ -8,50 +8,6 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="sf-sys-api-test-suite.xml" />
-	<munit:test name="sf-sys-api-test-suite-post:\contacts:application\json:sf-sys-api-configTest" doc:id="f3b6d8e9-dee3-4d66-8636-242462424801" description="Test">
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when" doc:id="8a4622ca-ddc7-417f-8d88-f0845e439fa1" processor="salesforce:create">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="Create contact" attributeName="doc:name" />
-				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value='#[output application/json&#10;---&#10;{&#10;"name": " test"&#10;}]' mediaType="application/json" encoding="UTF-8" />
-				</munit-tools:then-return>
-			</munit-tools:mock-when>
-		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Event" doc:id="dbaac11f-3e47-41ce-9ad1-f11c8b9a3eef" >
-				<munit:payload value='#[{&#10;"name": " test"&#10;}]' encoding="UTF-8" mediaType="application/json" />
-			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to post:\contacts:application\json:sf-sys-api-config" doc:id="0ead31d3-1109-449f-b9ba-8736c82ad46d" name="post:\contacts:application\json:sf-sys-api-config"/>
-		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="cf65f57d-2081-471a-b86b-2267a7bb9bb9" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
-		</munit:validation>
-	</munit:test>
-	<munit:test name="sf-sys-api-test-suite-put:\accounts:application\json:sf-sys-api-configTest" doc:id="30415078-59ab-4d98-8316-5f34273a7204" description="Test">
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when" doc:id="0a546464-8b2e-4698-97f4-846983ca1ba3" processor="salesforce:update">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="UpdateAccount" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="016906e8-4b96-42b3-a2ff-e79fd8d70d0b" attributeName="doc:id" />
-				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json&#10;---&#10;{}]" mediaType="application/json" encoding="UTF-8" />
-				</munit-tools:then-return>
-			</munit-tools:mock-when>
-		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Event" doc:id="0be147a7-278c-415d-b815-05a4919126e6" >
-				<munit:payload value='#[output application/json&#10;---&#10;[{&#10;  "Id": "0012W000Nmon",&#10;  "AccountNumber": "0098098sbi",&#10;  "Name": "hds associates",&#10;  "AccountSource": "Advertisement",&#10;  "AnnualRevenue": "66869987",&#10;  "BillingCity": " hyderabad",&#10;  "BillingCountry": "India",&#10;  "BillingLatitude": 12,&#10;  "BillingLongitude": 14,&#10;  "BillingPostalCode": "500096",&#10;  "BillingState": "Telangana",&#10;  "BillingStreet":"sapthagiricolony",&#10;  "CleanStatus":"Different",&#10;  "Description":"dont know",&#10;  "DunsNumber":"buns123"&#10;  &#10;}]]' encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[{queryParams: {'id': '123'},uriParams: {'id': '12'}}]" />
-			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to put:\accounts:application\json:sf-sys-api-config" doc:id="3bd5b2f4-80e7-4dd1-a606-870a8c088cab" name="put:\accounts:application\json:sf-sys-api-config"/>
-		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="4365c827-25c6-4ff2-a042-5d57a38f1c4d" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
-		</munit:validation>
-	</munit:test>
 	<munit:test name="sf-sys-api-test-suite-post:\Opportunity:application\json:sf-sys-api-configTest" doc:id="96c2b5d9-0ad6-4121-9ac3-5771956c43d8" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="923a7852-10b0-4dc0-ab35-d045b3c86dac" processor="salesforce:create">
@@ -182,6 +138,72 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="7a45ecc0-3343-4fe9-97be-cda60163c96c" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suite-post:\accounts:application\json:sf-sys-api-configTest" doc:id="8d528112-095f-4f4c-ba48-0108a77a290d" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2ecf0236-5dfa-4569-8962-62b455d09f8e" processor="salesforce:create">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Create Account" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="3ad6db27-b09a-4341-9efb-30f6026f63c4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10;readUrl("classpath://mock/createAccountMockResp.json")]' mediaType="application/java" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="cf5d9f28-e187-407a-8a2c-8ba45b8895bc" >
+				<munit:payload value='#[output application/json&#10;---&#10;readUrl("classpath://postAccountReq.json")]' encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\accounts:application\json:sf-sys-api-config" doc:id="5e397711-b6f1-49bb-b054-56aa671a8bbf" name="post:\accounts:application\json:sf-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="bcbdc8a5-ef44-47f0-a877-29630e4f56f9" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suite-put:\accounts:application\json:sf-sys-api-configTest" doc:id="7a187b11-4ad0-472a-8012-8168b7267525" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5449feae-85fc-4417-a3e7-3dfb2494ee1b" processor="salesforce:update">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="UpdateAccount" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="016906e8-4b96-42b3-a2ff-e79fd8d70d0b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10;readUrl("classpath://mock/updateAccountMockResp.json")]' mediaType="application/java" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="93aa6a48-cb34-44d5-bc25-588bd89ca6bb" >
+				<munit:payload value='#[output application/json&#10;---&#10;readUrl("classpath://putAccountReq.json")]' encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to put:\accounts:application\json:sf-sys-api-config" doc:id="4f534b74-5a1f-412c-8e0e-9a87426907d1" name="put:\accounts:application\json:sf-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="fb32a825-8e77-4a78-bbb4-9cbb812b41d7" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suite-delete:\accounts:sf-sys-api-configTest" doc:id="81ca6c39-a67b-4e16-ba5e-1148681c1703" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f9aa4490-4ab9-41dd-b2d1-5c6e685c705a" processor="salesforce:delete">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Delete Account" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="00c7c930-c4ea-4a48-9349-fecd7c6d9061" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:attributes value='#[output application/java&#10;---&#10;readUrl("classpath://mock/deleteAccountMockResp.json")]' mediaType="application/java" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="46d94d5b-8bed-481b-b4eb-b62abd0c39f2" >
+				<munit:attributes value="#[output application/json&#10;---&#10;{queryParams:{'Id':'I7'}}]" encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to delete:\accounts:sf-sys-api-config" doc:id="b589680b-070a-45ec-a4c1-d63560818aed" name="delete:\accounts:sf-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="adb36546-7d49-46ad-87c5-761369086f1c" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
 
