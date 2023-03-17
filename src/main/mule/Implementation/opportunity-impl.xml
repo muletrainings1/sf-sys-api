@@ -8,70 +8,29 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 	<sub-flow name="create-opportunity-implSub_Flow" doc:id="334efe52-9b43-45e8-af55-632043bb0af9" >
 		<ee:transform doc:name="Sf Request" doc:id="1fb89559-6d00-4a30-abd5-1d13751df692" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-payload map (item, index) -> {
-  Name:  item.Name ,
-  StageName: item.StageName ,
-  CloseDate : ((now() + |P3M|) as DateTime as String {format :'YYYY-MM-dd'}) as Date,
-  AccountId: item.AccountId,
-  Amount : item.Amount ,
-  Description : item.Description ,
-  ForecastCategoryName: item.ForecastCategoryName
-}
-
-]]></ee:set-payload>
+				<ee:set-payload resource="dwl/createOpp.dwl" />
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Before  Create  Opp " doc:id="5a969f25-a576-478b-9bb4-4ba570eac919" message="Before Create Opportunity::#[payload]"/>
+		<logger level="INFO" doc:name="Before Create Opp " doc:id="5a969f25-a576-478b-9bb4-4ba570eac919" message="Before Create Opportunity::#[payload]"/>
 		<salesforce:create doc:name="Create Opp" doc:id="7938e177-9e50-41ed-a8e2-0fee8e4262d3" config-ref="Salesforce_Config" type="Opportunity"/>
 		<ee:transform doc:name="Sf Response" doc:id="04cf85d6-761d-4fba-9869-eb387f0c5b28" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-//{
- //   Id:payload.items.id[0],
- //   status:if(payload.successful== true) " Id created successful" else
-//    "Id created unsuccessful"
-//}
-payload]]></ee:set-payload>
+				<ee:set-payload resource="dwl/createOppResp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Create Opp" doc:id="a2a15ffd-60c3-4726-bfd6-33d05fc17f31" message="After Create Opportunity::#[payload]"/>
 	</sub-flow>
-	<sub-flow name="update-opportunity-implSub_Flow1" doc:id="dde33914-c866-4042-b684-af8dfebae62f">
+	<sub-flow name="update-opportunity-implSub_Flow" doc:id="dde33914-c866-4042-b684-af8dfebae62f">
 		<ee:transform doc:name="Sf Request" doc:id="63f1cca4-bb1d-4dfc-b021-8673728a8e04">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/java
----
-payload map (item, index) -> {
-  Id: item.Id,
-  Name:  item.Name ,
-  StageName: item.StageName,
-  AccountId: item.AccountId,
-  Amount : item.Amount ,
-  Description : item.Description ,
-  ForecastCategoryName: item.ForecastCategoryName
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwl/updateOpp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Before Update Opp" doc:id="3ffe4a71-f958-4d40-8a55-04d38a998960" message="Before Update Opportunity:: #[payload]" />
 		<salesforce:update doc:name="Update Opp" doc:id="fc249f79-5641-455c-a696-f6d65aa14f1d" config-ref="Salesforce_Config" type="Opportunity" />
 		<ee:transform doc:name="Sf Response" doc:id="2823bcd9-bb67-4935-80b7-746a6cee94e6">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-//{
- //   Id:payload.items.id[0],
- //   status:if(payload.successful== true) " Id update successful" else
-//    "Id update unsuccessful"
-//}
-payload
-]]></ee:set-payload>
+				<ee:set-payload resource="dwl/updateOppResp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Update Opp" doc:id="fee7617d-95bf-494b-8655-f3bd040d7f12" message="After Update Opportunity:: #[payload]" />
@@ -83,14 +42,7 @@ payload
 		</salesforce:delete>
 		<ee:transform doc:name="Sf Response" doc:id="089bded4-5c3e-4409-ab30-2feb40cfd169" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id delete successful" else
-    "Id delete unsuccessfully"
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwl/deleteOppResp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Delete Opp" doc:id="cba552df-f3a9-4387-a774-642317efa860" message="AFter Delete Opp::#[payload]"/>

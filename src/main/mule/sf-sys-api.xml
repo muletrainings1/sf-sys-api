@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd  http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
-    <http:listener-config name="sf-sys-api-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
     <apikit:config name="sf-sys-api-config" api="resource::1e4468d0-75df-49fd-a69f-6a693cb30479:sf-sys-api:1.0.19:raml:zip:sf-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="sf-sys-api-main" doc:id="53869aed-43f7-4324-9ec7-47452d633c1b">
-        <http:listener config-ref="sf-sys-api-httpListenerConfig" path="/api/*">
+        <http:listener path="/api/*" config-ref="HTTP_Listener_config_SF">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="sf-sys-api-config" />
         <error-handler ref="globalError_Handler" />
     </flow>
     <flow name="put:\Opportunity:application\json:sf-sys-api-config">
-        <flow-ref doc:name="Flow Reference Update Opp" doc:id="21c96575-6139-44dc-88ae-0da2724256e4" name="update-opportunity-implSub_Flow1" />
+        <flow-ref doc:name="Flow Reference Update Opp" doc:id="21c96575-6139-44dc-88ae-0da2724256e4" name="update-opportunity-implSub_Flow" />
         <error-handler ref="globalError_Handler" />
     </flow>
     <flow name="put:\accounts:application\json:sf-sys-api-config">

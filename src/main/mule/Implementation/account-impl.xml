@@ -15,14 +15,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<salesforce:create doc:name="Create Account" doc:id="3ad6db27-b09a-4341-9efb-30f6026f63c4" config-ref="Salesforce_Config" type="Account"/>
 		<ee:transform doc:name="Sf Response" doc:id="1aa44d74-d36f-4c51-b12b-3215b5ddcf0d" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id created successful" else
-    "Id created unsuccessful"
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwl/createAccountResp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Create Account" doc:id="eea33f83-6093-4010-8450-5628a037ad30" message="After Create Account:: #[payload]"/>
@@ -30,61 +23,26 @@ output application/json
 	<sub-flow name="update-account-implSub_Flow" doc:id="5964e45a-c701-4e5b-9955-92e26cba64a5" >
 		<ee:transform doc:name="Sf Request" doc:id="b5be08ad-34e0-4e75-aa4c-0b1c937d11e5" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload map ((item, index) -> {
-	Id: item.Id,
-    AccountNumber: item.AccountNumber,
-    Name: item.Name,
-    AccountSource: item.AccountSource,
-    AnnualRevenue: item.AnnualRevenue,
-    BillingCity: item.BillingCity,
-    BillingCountry: item.BillingCountry,
-    BillingLatitude: item.BillingLatitude,
-    BillingLongitude: item.BillingLongitude,
-    BillingPostalCode: item.BillingPostalCode,
-    BillingState: item.BillingState,
-    BillingStreet: item.BillingStreet,
-    CleanStatus: item.CleanStatus,
-    Description: item.Description,
-    DunsNumber: item.DunsNumber
-
-})]]></ee:set-payload>
+				<ee:set-payload resource="dwl/updateAccount.dwl" />
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Before update account" doc:id="cbfe4de0-ac5e-4d2a-81ff-23a44f9dfdde" message="BeforeUpdateAccount::#[payload]"/>
-		<salesforce:update doc:name="UpdateAccount" doc:id="016906e8-4b96-42b3-a2ff-e79fd8d70d0b" config-ref="Salesforce_Config" type="Account"/>
+		<logger level="INFO" doc:name="Before Update Account" doc:id="cbfe4de0-ac5e-4d2a-81ff-23a44f9dfdde" message="BeforeUpdateAccount::#[payload]"/>
+		<salesforce:update doc:name="Update Account" doc:id="016906e8-4b96-42b3-a2ff-e79fd8d70d0b" config-ref="Salesforce_Config" type="Account"/>
 		<ee:transform doc:name="Sf Response" doc:id="33ccc8f4-738e-41db-961d-d592dee034bb" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-//{
-//    Id:payload.items.id[0],
-//    status:if(payload.successful== true) " Id Updated successful" else
-//    "Id update is unsuccessful"
-//}
-payload]]></ee:set-payload>
+				<ee:set-payload resource="dwl/updateAccountResp.dwl" />
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="After update Account" doc:id="d3630f7a-fe57-494d-b41e-7043e09f69c8" message="AfterUpdateAccount::#[payload]"/>
+		<logger level="INFO" doc:name="After Update Account" doc:id="d3630f7a-fe57-494d-b41e-7043e09f69c8" message="AfterUpdateAccount::#[payload]"/>
 	</sub-flow>
 	<sub-flow name="delete-account-implSub_Flow" doc:id="7951ee8d-944a-4fd9-bed6-757e73cb8d33" >
-		<logger level="INFO" doc:name="Before  Delete Account" doc:id="2b95e232-051c-4f68-8f06-600e49358c6c" message="Deleting Id:: #[attributes.queryParams.Id]"/>
+		<logger level="INFO" doc:name="Before Delete Account" doc:id="2b95e232-051c-4f68-8f06-600e49358c6c" message="Deleting Id:: #[attributes.queryParams.Id]"/>
 		<salesforce:delete doc:name="Delete Account" doc:id="00c7c930-c4ea-4a48-9349-fecd7c6d9061" config-ref="Salesforce_Config">
 			<salesforce:ids ><![CDATA[#[[attributes.queryParams.Id]]]]></salesforce:ids>
 		</salesforce:delete>
-		<ee:transform doc:name="SF-Response" doc:id="3fd8aa5e-4f27-4508-a832-2768ec473ffd" >
+		<ee:transform doc:name="Sf Response" doc:id="3fd8aa5e-4f27-4508-a832-2768ec473ffd" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    Id:payload.items.id[0],
-    status:if(payload.successful== true) " Id delete successful" else
-    "Id delete unsuccessfully"
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwl/deleteAccountResp.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="After Delete Account" doc:id="4eca9cc2-8103-45dd-8bf3-08f73743bc52" message="After Delete Account::#[payload]"/>
