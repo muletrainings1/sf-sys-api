@@ -206,6 +206,114 @@
 			<munit-tools:assert-that doc:name="Assert that" doc:id="adb36546-7d49-46ad-87c5-761369086f1c" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-BadRequest" doc:id="cad368c0-7a6d-469c-ae44-12f348f16db4" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Bad request" doc:id="90fbc609-8199-4d4d-bfd8-957bec675d52" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit Router" doc:id="a13efdfa-ba5c-4d98-968c-fa412ed5765c" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that Bad Request" doc:id="0c556aa7-d944-4bef-a08c-16ff6794baae" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-NotFound" doc:id="f168a4d5-3131-4e2d-a9f9-2627f5988f50" expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Not Found" doc:id="5eaa89e3-bc82-4e33-a5fd-0c9d00a74e52" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit router" doc:id="bc296ce4-f0b3-4464-9eb7-dbdce0291af8" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that Not Found" doc:id="5f252756-1abf-4dc8-9072-3dc75cad185f" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-MethodNotAllowed" doc:id="508c0bc2-3bd1-42fd-ad35-da992c1d7fed" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when MethodNotAllowed" doc:id="ac0658e3-9d1d-47d5-bd7c-8f5192b63e2c" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit router" doc:id="4eb0d308-9c10-49fc-81c0-3e3e58d7312e" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that MethodNotAllowed" doc:id="e45a218c-0a87-4e8c-9cf2-f9d920df0b77" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-NotAcceptable" doc:id="9915e79c-f8ff-4153-9314-0189de278ea9" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when NotAcceptable" doc:id="61c5755d-7227-48c8-9ad7-908953903f32" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit router" doc:id="8ec6106c-1ab0-425e-a6c7-878fbbbaaf1e" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that NotAcceptable" doc:id="1ae847d7-9e83-4dfe-9079-0bbfec72464b" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-UnsupportedMediaType" doc:id="7e5af4da-4641-4f7b-9821-d17a23718827" description="Test" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when UnsupportedMediaType" doc:id="bad31b97-692e-487c-8474-0a746f3d9536" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit router" doc:id="3b11971e-2d87-4e90-90e1-a47b264701a8" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that UnsupportedMediaType" doc:id="2adb378f-b4e8-4425-a97c-03ba9ad33df1" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sf-sys-api-test-suiteTest-NotImplemented" doc:id="89b92377-15f6-4df5-ab2e-04799f615082" description="Test" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when NotImplemented" doc:id="45f474d4-4600-4616-9417-e1e7ad81a115" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sf-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference API Kit router" doc:id="a4cc07c1-4886-4af0-9a57-25ee2903d073" name="sf-sys-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that NotImplemented" doc:id="ce2e2c5b-2c3c-42e7-b0f8-27c96c9d00c6" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
 
 
 </mule>
