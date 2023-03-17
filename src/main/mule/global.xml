@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="e6906335-a5ee-443e-a0ee-7e971ef2f414" >
-		<salesforce:basic-connection username="${sf.username}" password="${sf.password}" securityToken="${sf.securitytoken}" />
+		<salesforce:basic-connection username="${secure::sf.username}" password="${secure::sf.password}" securityToken="${secure::sf.securitytoken}" />
 	</salesforce:sfdc-config>
-	<configuration-properties doc:name="Configuration properties" doc:id="c159007b-669c-46c1-bb56-a96caa670c4b" file="properties\dev.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="c159007b-669c-46c1-bb56-a96caa670c4b" file="properties/${env}.properties" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="9ce77d98-af8c-4994-b379-5839034b4000" file="properties/${env}.properties" key="${app.secret}" />
 </mule>

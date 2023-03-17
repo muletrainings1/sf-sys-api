@@ -108,9 +108,15 @@
 		<dependency>
 			<groupId>1e4468d0-75df-49fd-a69f-6a693cb30479</groupId>
 			<artifactId>sf-sys-api</artifactId>
-			<version>1.0.5</version>
+			<version>1.0.19</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.modules</groupId>
+			<artifactId>mule-secure-configuration-property-module</artifactId>
+			<version>1.2.5</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
 
